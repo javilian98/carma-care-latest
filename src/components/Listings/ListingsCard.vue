@@ -1,8 +1,11 @@
 <script setup>
-import { defineProps, toRefs } from 'vue'
+import { defineProps } from 'vue'
+import { useRoute } from 'vue-router'
 import Avatar from 'primevue/avatar/Avatar.vue'
 import 'primeicons/primeicons.css'
 import Tag from 'primevue/tag/Tag.vue'
+import PlaceholderImg from '@/assets/images/placeholder-image.png'
+
 const props = defineProps({
   listingID: String,
   listingType: String,
@@ -18,6 +21,9 @@ const props = defineProps({
   quantityNum: Number,
   isPoster: Boolean
 })
+
+const route = useRoute()
+
 // Calculate the time difference in milliseconds
 const timeDifference = Date.now() - Date.parse(props.postingTime)
 
@@ -26,7 +32,7 @@ const seconds = timeDifference / 1000
 const minutes = seconds / 60
 const hours = minutes / 60
 const days = hours / 24
-var timeDiff
+var timeDiff = 'now'
 if (days > 1) {
   if (days.toFixed(0) == 1) {
     timeDiff = days.toFixed(0) + 'd ago'
@@ -52,6 +58,17 @@ if (days > 1) {
     timeDiff = seconds.toFixed(0) + 'sec ago'
   }
 }
+
+const statusSeverity = (status) => {
+  switch (status) {
+    case 'available':
+      return 'success'
+    case 'In Transaction':
+      return 'warning'
+    default:
+      return 'danger'
+  }
+}
 </script>
 
 <template>
@@ -75,6 +92,7 @@ if (days > 1) {
             size="large"
             shape="circle"
             :label="username?.[0].toUpperCase()"
+            style="background-color: #d2d2d2"
           />
         </div>
 
@@ -84,7 +102,10 @@ if (days > 1) {
               <!-- card header name goes in here -->
               {{ username }}
             </span>
-            <div v-if="isPoster" class="card-header-edit-btn">
+            <div
+              v-if="isPoster && route.name !== 'Create Giveaway' && route.name !== 'Create Request'"
+              class="card-header-edit-btn"
+            >
               <!-- card header edit button goes in here -->
               <router-link :to="{ path: `/${listingType.toLowerCase()}s/edit/${listingID}` }">
                 <i class="pi pi-file-edit" style="font-size: larger; margin-right: 2px"></i>
@@ -101,7 +122,7 @@ if (days > 1) {
               <span class="card-header-location">
                 <!-- card header location goes in here -->
                 <i class="pi pi-map-marker"></i>
-                {{ locationAddress }}
+                {{ locationAddress !== '' ? locationAddress : 'location' }}
               </span>
             </span>
           </div>
@@ -151,26 +172,54 @@ if (days > 1) {
             "
           ></Tag>
         </div>
-        <img class="card-image" :src="image" alt="" />
+        <img v-if="image" class="card-image" :src="image" alt="" />
+        <img
+          v-else
+          class="card-image"
+          style="height: unset; padding: 70px"
+          :src="PlaceholderImg"
+          alt=""
+        />
       </div>
 
       <div class="card-content">
-        <div class="card-content-title">
+        <div v-if="listingTitle" class="card-content-title">
           <!-- card title goes in here -->
           {{ listingTitle }}
         </div>
-        <div class="card-content-tags">
+        <div v-else class="card-content-title">
+          <!-- card title goes in here -->
+          <!-- {{ listingTitle }} -->
+          <div class="placeholder-card-content-title">Sample Title</div>
+        </div>
+        <div v-if="tags.length > 0" class="card-content-tags">
           <!-- card tags goes in here -->
           <Tag v-for="(item, index) in tags" :key="index" severity="warning" class="category"
             ><span class="card-content-tags-text">{{ item }}</span></Tag
           >
         </div>
+        <div v-else class="card-content-tags">
+          <!-- card tags goes in here -->
+          <Tag
+            v-for="(n, index) in 2"
+            :key="index"
+            severity="warning"
+            class="category"
+            :style="
+              route.name === 'Giveaways' || route.name === 'Requests'
+                ? { visibility: 'hidden' }
+                : {}
+            "
+            ><span class="card-content-tags-text">Tag {{ index + 1 }}</span>
+          </Tag>
+        </div>
       </div>
 
       <div class="card-footer">
         <!-- card item status goes in here -->
-        <Tag v-if="status == 'Available'" severity="success" :value="status"></Tag>
-        <Tag v-else severity="warning" :value="status"></Tag>
+        <Tag v-if="status == ''" value="Status"></Tag>
+        <Tag v-else-if="status == 'Available'" severity="success" :value="status"></Tag>
+        <Tag v-else :severity="statusSeverity(status)" :value="status"></Tag>
 
         <div class="card-item-servings" v-if="category == 'Food'">
           <!-- card item servings goes in here -->
@@ -333,6 +382,7 @@ a {
 .card-content-tags {
   gap: 8px;
   display: flex;
+  height: 26px;
 }
 
 .card-content-tags-text {
