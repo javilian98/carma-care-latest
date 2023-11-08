@@ -2,7 +2,7 @@
 import { useRoute } from 'vue-router'
 
 // primevue
-import Button from 'primevue/Button'
+import Button from 'primevue/button/Button.vue'
 
 // custom components
 import NotificationButton from '../NotificationButton.vue'

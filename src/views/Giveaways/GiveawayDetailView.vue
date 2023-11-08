@@ -6,7 +6,7 @@ import { supabase } from '../../lib/supabase'
 import { Arrow, Sync } from '@egjs/flicking-plugins'
 
 import Avatar from 'primevue/Avatar'
-import Button from 'primevue/Button'
+import Button from 'primevue/button/Button.vue'
 import Image from 'primevue/image'
 import Flicking from '@egjs/vue3-flicking'
 import Tag from 'primevue/tag'

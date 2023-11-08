@@ -8,7 +8,7 @@ import router from '../../router'
 import { useUserStore } from '../../stores/user'
 
 // primevue
-import Button from 'primevue/Button'
+import Button from 'primevue/button/Button.vue'
 
 // custom components
 import Logo from '@/components/Logo/Logo.vue'
@@ -45,7 +45,7 @@ const route = useRoute()
           />
         </template>
         <template v-else>
-          <NavCarmaCoins :userCarma="String(user.profile ? user.profile.currBalanceCarma : 0)"/>
+          <NavCarmaCoins :userCarma="String(user.profile ? user.profile.currBalanceCarma : 0)" />
           <AvatarMenu />
           <NotificationButton />
         </template>

@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useMatchMedia, screenSize } from '../../composables/useMatchMedia'
-import Button from 'primevue/Button'
+import Button from 'primevue/button/Button.vue'
 import Sidebar from 'primevue/sidebar'
 import Checkbox from 'primevue/checkbox'
 import Dropdown from 'primevue/Dropdown'
@@ -138,9 +138,7 @@ const checkAll = () => {
             :inputId="category.key"
             name="category"
             :value="category.name"
-            @change="
-              checkAll()
-            "
+            @change="checkAll()"
           />
           <label class="label" :for="category.key" :value="category.name">{{
             category.name

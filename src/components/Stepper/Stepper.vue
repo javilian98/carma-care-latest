@@ -1,7 +1,7 @@
 <script setup>
 import { ref, provide, useSlots } from 'vue'
 
-import Button from 'primevue/Button'
+import Button from 'primevue/button/Button.vue'
 import Avatar from 'primevue/Avatar'
 
 const slots = useSlots()

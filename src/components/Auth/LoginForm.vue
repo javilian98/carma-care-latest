@@ -10,7 +10,7 @@ import { supabase } from '../../lib/supabase'
 // primevue
 import InputText from 'primevue/InputText'
 import Password from 'primevue/Password'
-import Button from 'primevue/Button'
+import Button from 'primevue/button/Button.vue'
 
 // vue-toastification
 import { useToast, POSITION } from 'vue-toastification'

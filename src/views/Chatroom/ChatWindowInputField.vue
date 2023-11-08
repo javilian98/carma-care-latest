@@ -2,7 +2,7 @@
 import { ref, defineProps, toRefs, nextTick, inject } from 'vue'
 
 import InputText from 'primevue/InputText'
-import Button from 'primevue/Button'
+import Button from 'primevue/button/Button.vue'
 
 import { useUserStore } from '../../stores/user'
 import { useChatStore } from '../../stores/chat'
@@ -20,7 +20,7 @@ const messageTextInput = ref('')
 
 const handleSendMessage = async () => {
   if (messageTextInput.value === '') return
-  
+
   chat.selectedContact.lastMessage = messageTextInput.value
 
   nextTick(() => {

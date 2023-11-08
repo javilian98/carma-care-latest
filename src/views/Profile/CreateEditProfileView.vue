@@ -3,7 +3,7 @@ import { ref, computed, onMounted, watchEffect } from 'vue'
 
 import Image from 'primevue/image'
 import Avatar from 'primevue/Avatar'
-import Button from 'primevue/Button'
+import Button from 'primevue/button/Button.vue'
 import InputText from 'primevue/InputText'
 import Textarea from 'primevue/Textarea'
 import Dropdown from 'primevue/Dropdown'

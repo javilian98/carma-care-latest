@@ -1,6 +1,6 @@
 <script setup>
 import { defineProps, toRefs } from 'vue'
-import Button from 'primevue/Button'
+import Button from 'primevue/button/Button.vue'
 import { useMatchMedia, screenSize } from '../../composables/useMatchMedia'
 
 const props = defineProps({

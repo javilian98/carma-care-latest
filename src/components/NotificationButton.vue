@@ -1,9 +1,9 @@
 <script setup>
 import { ref } from 'vue'
-import Button from 'primevue/Button'
+import Button from 'primevue/button/Button.vue'
 import OverlayPanel from 'primevue/OverlayPanel'
 import NotificationList from './NotificationList.vue'
-import Badge from 'primevue/Badge'
+import Badge from 'primevue/badge/Badge.vue'
 
 import { useChatStore } from '../stores/chat'
 

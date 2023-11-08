@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 import Avatar from 'primevue/Avatar'
-import Button from 'primevue/Button'
+import Button from 'primevue/button/Button.vue'
 import Menu from 'primevue/Menu'
 
 import { useChatStore } from '../../stores/chat'

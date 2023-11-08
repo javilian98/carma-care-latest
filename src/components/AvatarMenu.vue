@@ -14,7 +14,7 @@ import { useMatchMedia, screenSize } from '../composables/useMatchMedia'
 import Avatar from 'primevue/Avatar'
 import Menu from 'primevue/Menu'
 import Dialog from 'primevue/dialog'
-import Button from 'primevue/Button'
+import Button from 'primevue/button/Button.vue'
 
 // vue-toastification
 import { useToast, POSITION } from 'vue-toastification'
