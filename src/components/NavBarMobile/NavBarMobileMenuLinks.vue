@@ -2,7 +2,7 @@
 import AvatarMenu from '../AvatarMenu.vue'
 import { useUserStore } from '../../stores/user'
 
-import Avatar from 'primevue/Avatar'
+import Avatar from 'primevue/avatar/Avatar.vue'
 
 const user = useUserStore()
 </script>

@@ -1,8 +1,8 @@
 <script setup>
 import { defineProps, toRefs } from 'vue'
-import Avatar from 'primevue/Avatar'
+import Avatar from 'primevue/avatar/Avatar.vue'
 import 'primeicons/primeicons.css'
-import Tag from 'primevue/tag'
+import Tag from 'primevue/tag/Tag.vue'
 const props = defineProps({
   listingID: String,
   listingType: String,
@@ -161,12 +161,9 @@ if (days > 1) {
         </div>
         <div class="card-content-tags">
           <!-- card tags goes in here -->
-          <Tag
-            v-for="(item, index) in tags"
-            :key="index"
-            severity="warning"
-            class="category"
-          ><span class="card-content-tags-text">{{ item }}</span></Tag>
+          <Tag v-for="(item, index) in tags" :key="index" severity="warning" class="category"
+            ><span class="card-content-tags-text">{{ item }}</span></Tag
+          >
         </div>
       </div>
 
@@ -338,7 +335,7 @@ a {
   display: flex;
 }
 
-.card-content-tags-text{
+.card-content-tags-text {
   max-width: 70px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -353,13 +350,7 @@ a {
   border-bottom-right-radius: 15px;
 }
 
-
-
 .card-item-servings i {
   padding-right: 6px;
 }
-
-
-
-
 </style>

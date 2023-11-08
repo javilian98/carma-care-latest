@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import Button from 'primevue/button/Button.vue'
-import OverlayPanel from 'primevue/OverlayPanel'
+import OverlayPanel from 'primevue/overlaypanel/OverlayPanel.vue'
 import NotificationList from './NotificationList.vue'
 import Badge from 'primevue/badge/Badge.vue'
 

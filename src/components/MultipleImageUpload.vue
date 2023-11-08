@@ -1,7 +1,7 @@
 <script setup>
 import { ref, defineEmits } from 'vue'
 
-import Image from 'primevue/image'
+import Image from 'primevue/image/Image.vue'
 
 const emit = defineEmits(['uploadImages'])
 

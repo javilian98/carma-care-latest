@@ -1,8 +1,8 @@
 <script setup>
 import { defineProps, toRefs, ref } from 'vue'
 
-import Avatar from 'primevue/Avatar'
-import Badge from 'primevue/Badge'
+import Avatar from 'primevue/avatar/Avatar.vue'
+import Badge from 'primevue/badge/Badge.vue'
 
 import { useChatStore } from '../../stores/chat'
 

@@ -8,8 +8,8 @@ import router from '../../router'
 import { supabase } from '../../lib/supabase'
 
 // primevue
-import InputText from 'primevue/InputText'
-import Password from 'primevue/Password'
+import InputText from 'primevue/inputtext/InputText.vue'
+import Password from 'primevue/password/Password.vue'
 import Button from 'primevue/button/Button.vue'
 
 // vue-toastification

@@ -11,9 +11,9 @@ import { supabase } from '../lib/supabase'
 import { useMatchMedia, screenSize } from '../composables/useMatchMedia'
 
 // primevue
-import Avatar from 'primevue/Avatar'
-import Menu from 'primevue/Menu'
-import Dialog from 'primevue/dialog'
+import Avatar from 'primevue/avatar/Avatar.vue'
+import Menu from 'primevue/menu/Menu.vue'
+import Dialog from 'primevue/dialog/Dialog.vue'
 import Button from 'primevue/button/Button.vue'
 
 // vue-toastification

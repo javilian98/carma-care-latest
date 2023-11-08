@@ -2,7 +2,7 @@
 import { defineProps, toRefs, ref, onMounted, provide } from 'vue'
 import ChatContactListItem from './ChatContactListItem.vue'
 
-import InputText from 'primevue/InputText'
+import InputText from 'primevue/inputtext/InputText.vue'
 
 import { renderAMPMTime } from '../../util/helper'
 

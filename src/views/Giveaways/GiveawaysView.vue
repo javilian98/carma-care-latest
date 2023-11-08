@@ -4,7 +4,7 @@ import ListingsCard from '../../components/Listings/ListingsCard.vue'
 import { useUserStore } from '../../stores/user'
 import { supabase } from '@/lib/supabase'
 import { ref, onMounted } from 'vue'
-import ProgressSpinner from 'primevue/progressspinner'
+import ProgressSpinner from 'primevue/progressspinner/ProgressSpinner.vue'
 const queryData = ref([])
 
 const user = useUserStore()

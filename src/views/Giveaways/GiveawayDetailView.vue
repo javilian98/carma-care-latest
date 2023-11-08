@@ -5,11 +5,11 @@ import { supabase } from '../../lib/supabase'
 
 import { Arrow, Sync } from '@egjs/flicking-plugins'
 
-import Avatar from 'primevue/Avatar'
+import Avatar from 'primevue/avatar/Avatar.vue'
 import Button from 'primevue/button/Button.vue'
-import Image from 'primevue/image'
+import Image from 'primevue/image/Image.vue'
 import Flicking from '@egjs/vue3-flicking'
-import Tag from 'primevue/tag'
+import Tag from 'primevue/tag/Tag.vue'
 
 import CardContainer from '../../components/CardContainer/CardContainer.vue'
 import Map from '../../components/Map.vue'

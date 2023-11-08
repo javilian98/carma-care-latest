@@ -1,13 +1,13 @@
 <script setup>
 import Tab from '../../components/Tab/Tab.vue'
 import TabsWrapper from '../../components/Tab/TabsWrapper.vue'
-import ListingsCard from '../../components/listings/ListingsCard.vue'
+import ListingsCard from '../../components/Listings/ListingsCard.vue'
 import { useMatchMedia, screenSize } from '../../composables/useMatchMedia'
 import Button from 'primevue/button/Button.vue'
-import Avatar from 'primevue/Avatar'
-import Dialog from 'primevue/dialog'
-import Tag from 'primevue/tag'
-import Chart from 'primevue/chart'
+import Avatar from 'primevue/avatar/Avatar.vue'
+import Dialog from 'primevue/dialog/Dialog.vue'
+import Tag from 'primevue/tag/Tag.vue'
+import Chart from 'primevue/chart/Chart.vue'
 import { ref, onMounted } from 'vue'
 import { LISTING_TYPE } from '../../util/constants'
 

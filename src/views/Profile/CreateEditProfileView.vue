@@ -1,13 +1,13 @@
 <script setup>
 import { ref, computed, onMounted, watchEffect } from 'vue'
 
-import Image from 'primevue/image'
-import Avatar from 'primevue/Avatar'
+import Image from 'primevue/image/Image.vue'
+import Avatar from 'primevue/avatar/Avatar.vue'
 import Button from 'primevue/button/Button.vue'
-import InputText from 'primevue/InputText'
-import Textarea from 'primevue/Textarea'
-import Dropdown from 'primevue/Dropdown'
-import MultiSelect from 'primevue/multiselect'
+import InputText from 'primevue/inputtext/InputText.vue'
+import Textarea from 'primevue/textarea/Textarea.vue'
+import Dropdown from 'primevue/dropdown/Dropdown.vue'
+import MultiSelect from 'primevue/multiselect/MultiSelect.vue'
 
 import { DIETARY_RESTRICTIONS, FOOD_ALLERGENS } from '../../util/constants'
 import { convertConstantsToDropdownOptions } from '../../util/helper'

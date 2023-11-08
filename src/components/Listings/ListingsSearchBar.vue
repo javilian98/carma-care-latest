@@ -1,6 +1,6 @@
 <script setup>
 import { defineProps, toRefs, ref } from 'vue'
-import InputText from 'primevue/InputText'
+import InputText from 'primevue/inputtext/InputText.vue'
 
 const props = defineProps({
   placeholder: String

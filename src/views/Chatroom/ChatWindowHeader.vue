@@ -1,9 +1,9 @@
 <script setup>
 import { ref } from 'vue'
 
-import Avatar from 'primevue/Avatar'
+import Avatar from 'primevue/avatar/Avatar.vue'
 import Button from 'primevue/button/Button.vue'
-import Menu from 'primevue/Menu'
+import Menu from 'primevue/menu/Menu.vue'
 
 import { useChatStore } from '../../stores/chat'
 

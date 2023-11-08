@@ -4,7 +4,7 @@ import ListingsCard from '../../components/Listings/ListingsCard.vue'
 import { useUserStore } from '../../stores/user'
 import { supabase } from '@/lib/supabase'
 import { ref, onMounted } from 'vue'
-import ProgressSpinner from 'primevue/progressspinner'
+import ProgressSpinner from 'primevue/progressspinner/ProgressSpinner.vue'
 const queryData = ref([])
 const user = useUserStore()
 const currentUser = user.currentUser?.id
@@ -24,7 +24,7 @@ async function getData(queryData) {
       'poster_id,listingID,listingType, postingTime, locationAddress, category, images, listingTitle, tags,status, quantityNum, userProfiles(username, avatarUrl)'
     )
     .eq('listingType', 'Request')
-    .neq("status","Unavailable")
+    .neq('status', 'Unavailable')
     .order('postingTime', { ascending: false })
 
   // : avatarUrl = item.avatarUrl
@@ -58,10 +58,10 @@ async function getFiltered(condition) {
   if (restrictionsFilter != 'Null') {
     query.eq('dietaryRestrictions', restrictionsFilter)
   }
-  
-  query.neq("status","Unavailable")
 
-  const { data, error } = await query.order('postingTime', { ascending: false })  
+  query.neq('status', 'Unavailable')
+
+  const { data, error } = await query.order('postingTime', { ascending: false })
 
   if (error) {
     console.log('error: ', error)
@@ -120,7 +120,7 @@ async function search(searchData) {
       )
       .ilike('listingTitle', '%' + searchData + '%')
       .eq('listingType', 'Request')
-      .neq("status","Unavailable")
+      .neq('status', 'Unavailable')
       .order('postingTime', { ascending: false })
 
     if (error) {

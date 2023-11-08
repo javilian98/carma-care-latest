@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, watchEffect, inject } from 'vue'
 
-import Avatar from 'primevue/Avatar'
+import Avatar from 'primevue/avatar/Avatar.vue'
 
 import { renderAMPMTime } from '../../util/helper'
 

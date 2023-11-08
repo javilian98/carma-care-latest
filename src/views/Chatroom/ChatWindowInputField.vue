@@ -1,7 +1,7 @@
 <script setup>
 import { ref, defineProps, toRefs, nextTick, inject } from 'vue'
 
-import InputText from 'primevue/InputText'
+import InputText from 'primevue/inputtext/InputText.vue'
 import Button from 'primevue/button/Button.vue'
 
 import { useUserStore } from '../../stores/user'

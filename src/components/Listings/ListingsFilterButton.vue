@@ -2,9 +2,9 @@
 import { ref } from 'vue'
 import { useMatchMedia, screenSize } from '../../composables/useMatchMedia'
 import Button from 'primevue/button/Button.vue'
-import Sidebar from 'primevue/sidebar'
-import Checkbox from 'primevue/checkbox'
-import Dropdown from 'primevue/Dropdown'
+import Sidebar from 'primevue/sidebar/Sidebar.vue'
+import Checkbox from 'primevue/checkbox/Checkbox.vue'
+import Dropdown from 'primevue/dropdown/Dropdown.vue'
 
 defineEmits(['passQuery'])
 
