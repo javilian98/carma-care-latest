@@ -104,11 +104,11 @@ async function search(searchData) {
   if (searchData == undefined) {
     searchData = ''
   }
-  if (typeof this.timer !== 'undefined'||this.timer == null) {
-    clearTimeout(this.timer)
-    this.timer = null
+  if (typeof timer !== 'undefined'||timer == null) {
+    clearTimeout(timer)
+    timer = null
   }
-  this.timer = setTimeout(async () => {
+  var timer = setTimeout(async () => {
     // your code
     // const columnsToSelect='listingType', 'username', 'postingTime', 'locationAddress', 'category', 'image', 'listingTitle', 'tags', 'quantityNum', 'quantityUnit'
     isSearching.value = true
