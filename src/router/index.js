@@ -123,8 +123,8 @@ const router = createRouter({
       meta: {
         layout: DefaultLayout,
         requiresAuth: true,
-        requiresProfile: false,
-        alreadyHaveProfile: true
+        requiresProfile: false
+        // alreadyHaveProfile: true
       }
     },
     {
@@ -198,12 +198,19 @@ async function getUserProfile(next, toFullPath) {
 
   user.profile = await user.fetchUserProfile()
 
-  if (user.currentUser && user.profile && toFullPath !== '/profile/create') {
-    next()
-  } else {
-    console.log('NO PROFILE')
-    next('/')
+  console.log('user profile ', user.profile)
+
+  if (user.profile === null) {
+    next('/profile/create')
+    return
   }
+
+  // if (user.currentUser && user.profile && toFullPath !== '/profile/create') {
+  //   next()
+  // } else {
+  //   console.log('NO PROFILE')
+  //   next('/')
+  // }
 }
 
 // auth requirements
