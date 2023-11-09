@@ -22,6 +22,7 @@ const handleFileSelect = (event) => {
     if (files[i].type.split('/')[0] !== 'image') continue
     if (!images.value.some((img) => img.name === files[i].name)) {
       images.value.push({
+        file: files[i],
         name: files[i].name,
         url: URL.createObjectURL(files[i])
       })
