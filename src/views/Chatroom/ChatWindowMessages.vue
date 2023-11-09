@@ -84,12 +84,6 @@ const getMessages = async () => {
         (payload) => {
           console.log('payload: ', payload.new)
 
-          if (route.name !== 'Chatroom') {
-            console.log('route.name ', route.name)
-            notificationSound.play()
-            chat.notificationCount++
-          }
-
           console.log('current user id ', user.currentUser.id)
 
           const recipientContactId = chat.contactList
@@ -130,6 +124,12 @@ const getMessages = async () => {
             // Combine the filtered list with the updated contact item
             const newContactList = [updatedChatContactListItem, ...filterOldChatList]
             chat.setContactList(newContactList)
+
+            if (route.name !== 'Chatroom') {
+              console.log('route.name ', route.name)
+              notificationSound.play()
+              chat.notificationCount++
+            }
 
             console.log('newContactList ', chat.contactList)
           }
