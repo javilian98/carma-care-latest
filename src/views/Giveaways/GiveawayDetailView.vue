@@ -136,6 +136,11 @@ const imageCarouselSetup = () => {
 
 const handleChatWithUser = async () => {
   console.log('CLICKEDD')
+
+  if (user.profile === null) {
+    router.push('/profile/create')
+  }
+
   // Check if message to user exists
   const { data: chatMessages, error: chatMessageError } = await supabase
     .from('chatMessages')
