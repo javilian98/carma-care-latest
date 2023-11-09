@@ -35,6 +35,10 @@ import { useToast, POSITION } from 'vue-toastification'
 
 import { useUserStore } from '../../stores/user'
 
+import { isValueEmpty, checkEmptyFormInputs } from '../../util/helper'
+
+import VueGoogleAutocomplete from 'vue-google-autocomplete'
+
 const route = useRoute()
 const toast = useToast()
 const user = useUserStore()
@@ -42,16 +46,17 @@ const user = useUserStore()
 const isLoading = ref(false)
 const imageFiles = ref([])
 const showPreview = ref(false)
-const locationAddressRef = ref()
-const form = ref({
+const googleAutocompleteRef = ref(null)
+
+const formInit = {
   posterID: user.currentUser.id,
   username: user.profile?.username,
   listingType: LISTING_TYPE.Request, // (LISTING_TYPE.Request for CreateEditRequestView.vue)
   listingTitle: '',
   status: '',
   category: '',
-  dietaryRestrictions: DIETARY_RESTRICTIONS.None,
-  foodAllergens: FOOD_ALLERGENS.None,
+  dietaryRestrictions: '',
+  foodAllergens: [],
   tags: [],
   description: '',
   images: [],
@@ -59,7 +64,9 @@ const form = ref({
   locationAddress: '',
   locationDescription: '',
   locationCoords: ''
-})
+}
+const form = ref(formInit)
+const formErrors = ref({})
 
 onMounted(async () => {
   user.profile = await user.fetchUserProfile()
@@ -126,6 +133,21 @@ const handleChangeCategoryOption = (event) => {
 }
 
 const handleCreateRequest = async () => {
+  if (checkEmptyFormInputs(form.value)) {
+    Object.keys(form.value).forEach((key) => {
+      console.log(
+        'isValueEmpty(form.value[key], key, form.value) ',
+        isValueEmpty(form.value[key], key, form.value)
+      )
+      formErrors.value[key] = isValueEmpty(form.value[key], key, form.value)
+    })
+
+    toast.error('Some inputs are not filled in', {
+      position: POSITION.TOP_CENTER
+    })
+    return
+  }
+
   isLoading.value = true
   // Upload the images to a Supabase bucket
   for (let image of imageFiles.value) {
@@ -203,6 +225,7 @@ const handleCreateRequest = async () => {
           position: POSITION.TOP_CENTER,
           timeout: 5000
         })
+        form.value = formInit
       }
     }
   }
@@ -211,6 +234,21 @@ const handleCreateRequest = async () => {
 }
 
 const handleEditRequest = async () => {
+  if (checkEmptyFormInputs(form.value)) {
+    Object.keys(form.value).forEach((key) => {
+      console.log(
+        'isValueEmpty(form.value[key], key, form.value) ',
+        isValueEmpty(form.value[key], key, form.value)
+      )
+      formErrors.value[key] = isValueEmpty(form.value[key], key, form.value)
+    })
+
+    toast.error('Some inputs are not filled in', {
+      position: POSITION.TOP_CENTER
+    })
+    return
+  }
+
   isLoading.value = true
 
   const { data, error } = await supabase.from('listings').upsert(
@@ -247,6 +285,7 @@ const handleEditRequest = async () => {
       position: POSITION.TOP_CENTER,
       timeout: 5000
     })
+    form.value = formInit
   }
 
   isLoading.value = false
@@ -256,45 +295,24 @@ const handleUploadImages = (images) => {
   imageFiles.value = images.value
 }
 
-const gmapLink = `https://maps.googleapis.com/maps/api/js?key=${
-  import.meta.env.VITE_GOOGLE_MAPS_API_KEY
-}&libraries=places`
+const getAddressData = (addressData, placeResultData, id) => {
+  console.log('places: addressData ', addressData)
+  console.log('places: placeResultData ', placeResultData)
+  googleAutocompleteRef.value = placeResultData.formatted_address
+  form.value.locationAddress = placeResultData.formatted_address
 
-onMounted(() => {
-  new Promise((resolve, reject) => {
-    let googleScript = document.querySelector(`script[src="${gmapLink}"]`)
-
-    if (!googleScript) {
-      googleScript = document.createElement('script')
-      googleScript.src = gmapLink
-      googleScript.async = true
-      document.head.append(googleScript)
-
-      googleScript.addEventListener('error', () => {
-        reject()
-      })
-
-      googleScript.addEventListener('load', () => {
-        resolve()
-      })
-    }
-  }).then(() => {
-    const autocomplete = new google.maps.places.Autocomplete(locationAddressRef.value, {
-      types: ['address']
-    })
-
-    google.maps.event.addListener(autocomplete, 'place_changed', () => {
-      const place = autocomplete.getPlace()
-      const lat = place.geometry.location.lat()
-      const lng = place.geometry.location.lng()
-      console.log(`place received: lat: ${lat}, lng: ${lng}`)
-      form.value.locationCoords = { lat, lng }
-      console.log('form.locationCoords: ', form.value.locationCoords)
-    })
-  })
-})
+  const lat = placeResultData.geometry.location.lat()
+  const lng = placeResultData.geometry.location.lng()
+  form.value.locationCoords = { lat, lng }
+}
 
 const tabletScreen = useMatchMedia(screenSize.tablet)
+
+const handleFocusOut = (key) => {
+  formErrors.value[key] = isValueEmpty(form.value[key], key, form.value)
+
+  console.log('formErrors.value[key] ', isValueEmpty(form.value[key]))
+}
 </script>
 
 <template>
@@ -325,7 +343,12 @@ const tabletScreen = useMatchMedia(screenSize.tablet)
             <CardContainer title="Request Information">
               <div class="request-information">
                 <span class="p-float-label request-name">
-                  <InputText v-model="form.listingTitle" class="w-full" />
+                  <InputText
+                    v-model="form.listingTitle"
+                    class="w-full"
+                    @focusout="handleFocusOut('listingTitle')"
+                    :class="{ 'p-invalid': formErrors['listingTitle'] }"
+                  />
                   <label>Request Title</label>
                 </span>
 
@@ -345,6 +368,8 @@ const tabletScreen = useMatchMedia(screenSize.tablet)
                   <Dropdown
                     @change="handleChangeCategoryOption"
                     v-model="form.category"
+                    @focusout="handleFocusOut('category')"
+                    :class="{ 'p-invalid': formErrors['category'] }"
                     :options="categoryOptions"
                     optionLabel="label"
                     optionValue="value"
@@ -357,6 +382,8 @@ const tabletScreen = useMatchMedia(screenSize.tablet)
                 <div class="p-float-label request-status">
                   <Dropdown
                     v-model="form.status"
+                    @focusout="handleFocusOut('status')"
+                    :class="{ 'p-invalid': formErrors['status'] }"
                     :options="statusOptions"
                     optionLabel="label"
                     optionValue="value"
@@ -369,6 +396,8 @@ const tabletScreen = useMatchMedia(screenSize.tablet)
                 <div v-if="form.category === CATEGORY.Food" class="p-float-label request-serving">
                   <Dropdown
                     v-model="form.quantityNum"
+                    @focusout="handleFocusOut('quantityNum')"
+                    :class="{ 'p-invalid': formErrors['quantityNum'] }"
                     :options="servingsizeOptions"
                     optionLabel="label"
                     optionValue="value"
@@ -384,6 +413,8 @@ const tabletScreen = useMatchMedia(screenSize.tablet)
                 >
                   <Dropdown
                     v-model="form.dietaryRestrictions"
+                    @focusout="handleFocusOut('dietaryRestrictions')"
+                    :class="{ 'p-invalid': formErrors['dietaryRestrictions'] }"
                     :options="dietaryRestrictionsOptions"
                     optionLabel="label"
                     optionValue="value"
@@ -395,7 +426,12 @@ const tabletScreen = useMatchMedia(screenSize.tablet)
 
                 <div class="card p-fluid request-tags">
                   <span class="p-float-label">
-                    <Chips id="chips" v-model="form.tags" />
+                    <Chips
+                      id="chips"
+                      v-model="form.tags"
+                      @focusout="handleFocusOut('tags')"
+                      :class="{ 'p-invalid': formErrors['tags'] }"
+                    />
                     <label for="chips">Tags</label>
                   </span>
                 </div>
@@ -404,6 +440,8 @@ const tabletScreen = useMatchMedia(screenSize.tablet)
                   <MultiSelect
                     display="chip"
                     v-model="form.foodAllergens"
+                    @focusout="handleFocusOut('foodAllergens')"
+                    :class="{ 'p-invalid': formErrors['foodAllergens'] }"
                     :options="allergensOptions"
                     optionLabel="label"
                     optionValue="value"
@@ -416,6 +454,8 @@ const tabletScreen = useMatchMedia(screenSize.tablet)
                 <span class="p-float-label request-description">
                   <Textarea
                     v-model="form.description"
+                    @focusout="handleFocusOut('description')"
+                    :class="{ 'p-invalid': formErrors['description'] }"
                     autoResize
                     rows="5"
                     cols="30"
@@ -449,8 +489,7 @@ const tabletScreen = useMatchMedia(screenSize.tablet)
                   />
                   <label>Location Address</label>
                 </span> -->
-                {{ form.locationCoords }}
-                <input
+                <!-- <input
                   style="
                     font-family: inherit;
                     font-feature-settings: inherit;
@@ -465,11 +504,31 @@ const tabletScreen = useMatchMedia(screenSize.tablet)
                   ref="locationAddressRef"
                   v-model="form.locationAddress"
                   class="w-full"
-                />
+                /> -->
+                <VueGoogleAutocomplete
+                  id="map"
+                  classname="form-control"
+                  placeholder="Location Address"
+                  ref="googleAutocompleteRef"
+                  v-model="form.locationAddress"
+                  v-on:placechanged="getAddressData"
+                  style="
+                    font-family: inherit;
+                    font-feature-settings: inherit;
+                    font-size: 1rem;
+                    color: #495057;
+                    background: #ffffff;
+                    padding: 0.75rem 0.75rem;
+                    border: 1px solid #ced4da;
+                    border-radius: 6px;
+                  "
+                ></VueGoogleAutocomplete>
 
                 <span class="p-float-label request-location-description">
                   <Textarea
                     v-model="form.locationDescription"
+                    @focusout="handleFocusOut('locationDescription')"
+                    :class="{ 'p-invalid': formErrors['locationDescription'] }"
                     autoResize
                     rows="5"
                     cols="30"
