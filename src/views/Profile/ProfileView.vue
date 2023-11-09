@@ -70,6 +70,12 @@ async function getPosterInfo() {
     profileInfo.value = data
   }
 }
+
+// sorting function for sorting listings by date
+function listing_custom_sort(a, b) {
+  return new Date(b.postingTime).getTime() - new Date(a.postingTime).getTime()
+}
+
 // Fetch user listings from db for giveaway and request count
 async function getListings() {
   // get all listings from this user
@@ -93,6 +99,9 @@ async function getListings() {
     num_giveaways.value = own_giveaways.length
     requests.value = own_requests
     num_requests.value = own_requests.length
+
+    giveaways.value.sort(listing_custom_sort)
+    requests.value.sort(listing_custom_sort)
   }
 }
 
