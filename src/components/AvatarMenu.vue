@@ -44,20 +44,6 @@ const items = ref([
     }
   },
   {
-    label: 'My Giveaways',
-    icon: 'pi pi-gift',
-    command: () => {
-      console.log('My Giveaways CLICKED')
-    }
-  },
-  {
-    label: 'My Requests',
-    icon: 'pi pi-megaphone',
-    command: () => {
-      console.log('My Requests CLICKED')
-    }
-  },
-  {
     label: 'Chatroom',
     icon: 'pi pi-comments',
     command: () => {
