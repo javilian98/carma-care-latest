@@ -147,7 +147,9 @@ const checkAll = () => {
       </div>
 
       <div class="dietaryRestrictions">
-        <h2>Dietary Restrictions</h2>
+        <h2 style="margin-top: 30px; padding-bottom: 10px; font-size: 1.2em">
+          Dietary Restrictions
+        </h2>
 
         <Dropdown
           v-model="selectedRestrictions"
@@ -159,7 +161,7 @@ const checkAll = () => {
       </div>
 
       <div class="allergens">
-        <h2>Food Allergens</h2>
+        <h2 style="margin-top: 30px; padding-bottom: 10px; font-size: 1.2em">Food Allergens</h2>
 
         <div v-for="allergen of allergens" :key="allergen.key" class="flex align-items-center">
           <Checkbox
