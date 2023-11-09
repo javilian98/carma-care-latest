@@ -305,17 +305,17 @@ const handleChatWithUser = async () => {
             <span class="giveaway-item-label">{{ form.listingType }} Title</span>
             <span class="giveaway-item-value">{{ form.listingTitle }}</span>
           </div>
-          <div class="giveaway-item giveaway-diet">
+          <div v-if='form.category == CATEGORY.Food' class="giveaway-item giveaway-diet">
             <span class="giveaway-item-label">Dietary Restriction</span>
             <span class="giveaway-item-value">{{
               renderTextContent(form.dietaryRestrictions)
             }}</span>
           </div>
-          <div class="giveaway-item giveaway-serving">
+          <div v-if='form.category == CATEGORY.Food' class="giveaway-item giveaway-serving">
             <span class="giveaway-item-label">Serving Size</span>
             <span class="giveaway-item-value">{{ form.quantityNum }} Serving(s)</span>
           </div>
-          <div class="giveaway-item giveaway-tags">
+          <div v-if='form.category == CATEGORY.Food' class="giveaway-item giveaway-tags">
             <span class="giveaway-item-label">Main Ingredients</span>
             <span class="giveaway-item-value">
               <Tag
@@ -327,7 +327,7 @@ const handleChatWithUser = async () => {
               />
             </span>
           </div>
-          <div class="giveaway-item giveaway-allergens">
+          <div v-if='form.category == CATEGORY.Food' class="giveaway-item giveaway-allergens">
             <span class="giveaway-item-label">Food Allergens</span>
             <span class="giveaway-item-value">
               <Tag
