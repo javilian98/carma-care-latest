@@ -548,9 +548,9 @@ watch([form.value], () => {
             </CardContainer>
 
             <CardContainer title="Photo Gallery">
-              <span v-if="form.images.length < 1" style="color: #e24c4c"
-                >Please upload an image</span
-              >
+              <div v-if="form.images.length < 1" style="color: #e24c4c; margin-bottom: 10px">
+                Please upload an image
+              </div>
               <div class="photo-gallery">
                 <MultipleImageUpload @uploadImages="handleUploadImages" />
               </div>
