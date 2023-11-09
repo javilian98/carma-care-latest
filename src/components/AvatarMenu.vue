@@ -35,7 +35,12 @@ const items = ref([
     label: 'My Profile',
     icon: 'pi pi-user',
     command: () => {
-      router.push({ path: `/profile/@${user.profile.handle}` })
+      if (user.profile !== null) {
+        router.push({ path: `/profile/@${user.profile.handle}` })
+      } else {
+        console.log('CREATE PROFILE')
+        router.push({ name: 'Create Profile' })
+      }
     }
   },
   {
