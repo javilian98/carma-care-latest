@@ -83,27 +83,14 @@ const getMessages = async () => {
         { event: '*', schema: 'public', table: 'chatMessages' },
         (payload) => {
           console.log('payload: ', payload.new)
-          chat.messages.push({
-            id: payload.new.id,
-            chat_id: payload.new.chat_id,
-            senderId: payload.new.sender_id,
-            recipientId: payload.new.recipient_id,
-            listingId: payload.new.listing_id,
-            message: payload.new.message,
-            timestamp: payload.new.timestamp
-          })
-
-          // chat.contactList = chat.contactList.filter(
-          //   (contact) => contact.chat_id !== payload.new.chat_id
-          // )
-
-          // console.log('new chat.contactList: ', chat.contactList)
 
           if (route.name !== 'Chatroom') {
             console.log('route.name ', route.name)
             notificationSound.play()
             chat.notificationCount++
           }
+
+          console.log('current user id ', user.currentUser.id)
 
           const recipientContactId = chat.contactList
             .filter((contact) => contact.chat_id === payload.new.chat_id)
@@ -112,26 +99,40 @@ const getMessages = async () => {
           const recipientContact = chat.contactList.find(
             (contact) => recipientContactId === contact.id
           )
-          const updatedChatContactListItem = {
-            id: payload.new.id,
-            chat_id: payload.new.chat_id,
-            avatarUrl: recipientContact?.avatarUrl || '',
-            username: recipientContact?.username,
-            // lastMessage: uniqueChatRecord[0].message,
-            lastMessage: payload.new.message,
-            lastMessageTime: renderAMPMTime(payload.new.timestamp),
-            lastMessageCount: chat.notificationCount
+
+          console.log('recipientContact ', recipientContact)
+
+          if (recipientContact) {
+            chat.messages.push({
+              id: payload.new.id,
+              chat_id: payload.new.chat_id,
+              senderId: payload.new.sender_id,
+              recipientId: payload.new.recipient_id,
+              listingId: payload.new.listing_id,
+              message: payload.new.message,
+              timestamp: payload.new.timestamp
+            })
+            const updatedChatContactListItem = {
+              id: payload.new.id,
+              chat_id: payload.new.chat_id,
+              avatarUrl: recipientContact?.avatarUrl || '',
+              username: recipientContact?.username,
+              // lastMessage: uniqueChatRecord[0].message,
+              lastMessage: payload.new.message,
+              lastMessageTime: renderAMPMTime(payload.new.timestamp),
+              lastMessageCount: chat.notificationCount
+            }
+
+            const filterOldChatList = chat.contactList.filter(
+              (contact) => contact.chat_id !== payload.new.chat_id
+            )
+
+            // Combine the filtered list with the updated contact item
+            const newContactList = [updatedChatContactListItem, ...filterOldChatList]
+            chat.setContactList(newContactList)
+
+            console.log('newContactList ', chat.contactList)
           }
-
-          const filterOldChatList = chat.contactList.filter(
-            (contact) => contact.chat_id !== payload.new.chat_id
-          )
-
-          // Combine the filtered list with the updated contact item
-          const newContactList = [updatedChatContactListItem, ...filterOldChatList]
-          chat.setContactList(newContactList)
-
-          console.log('newContactList ', chat.contactList)
         }
       )
       .subscribe()
@@ -160,7 +161,7 @@ const getMessages = async () => {
           />
           <Avatar
             v-else
-            :label="chat.selectedContact.username[0]"
+            :label="chat.selectedContact.username?.[0]"
             size="medium"
             shape="circle"
             style="background-color: #4caf4f; color: #fff"
