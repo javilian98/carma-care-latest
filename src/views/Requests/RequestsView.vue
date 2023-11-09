@@ -104,7 +104,7 @@ async function search(searchData) {
   if (searchData == undefined) {
     searchData = ''
   }
-  if (this.timer) {
+  if (typeof this.timer !== 'undefined') {
     clearTimeout(this.timer)
     this.timer = null
   }
