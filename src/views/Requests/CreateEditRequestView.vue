@@ -497,10 +497,18 @@ const tabletScreen = useMatchMedia(screenSize.tablet)
             />
             <div class="next-prev-btn-container">
               <router-link to="">
-                <Button icon="pi pi-times" label="Cancel" rounded outlined @click="handleBackBtn" />
+                <Button
+                  severity="warning"
+                  icon="pi pi-times"
+                  label="Cancel"
+                  rounded
+                  outlined
+                  @click="handleBackBtn"
+                />
               </router-link>
               <Button
                 v-if="route.name === 'Edit Request'"
+                severity="warning"
                 icon="pi pi-plus"
                 label="Save Changes"
                 rounded
@@ -509,6 +517,7 @@ const tabletScreen = useMatchMedia(screenSize.tablet)
               />
               <Button
                 v-else
+                severity="warning"
                 icon="pi pi-plus"
                 label="Create"
                 rounded
