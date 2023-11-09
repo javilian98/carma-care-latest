@@ -265,7 +265,7 @@ const handleEditRequest = async () => {
         tags: form.value.tags,
         listingDesc: form.value.description,
         images: form.value.images,
-        quantityNum: form.value.quantityNum,
+        quantityNum: form.value.quantityNum ? form.value.quantityNum : 0,
         locationAddress: form.value.locationAddress,
         locationDesc: form.value.locationDescription
       }
