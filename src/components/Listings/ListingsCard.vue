@@ -214,7 +214,6 @@ const statusSeverity = (status) => {
           </Tag>
         </div>
       </div>
-
       <div class="card-footer">
         <!-- card item status goes in here -->
         <Tag v-if="status == ''" value="Status"></Tag>
@@ -382,13 +381,14 @@ a {
 .card-content-tags {
   gap: 8px;
   display: flex;
-  height: 26px;
+  flex-flow: wrap;
+  /* height: 26px; */
 }
 
 .card-content-tags-text {
-  max-width: 70px;
+  /* max-width: 70px; */
   overflow: hidden;
-  text-overflow: ellipsis;
+  /* text-overflow: ellipsis; */
   white-space: nowrap;
 }
 .card-footer {
