@@ -134,8 +134,8 @@ const router = createRouter({
       meta: {
         layout: DefaultLayout,
         requiresAuth: true,
-        requiresProfile: true,
-        alreadyHaveProfile: true
+        requiresProfile: true
+        // alreadyHaveProfile: true
       }
     },
 
