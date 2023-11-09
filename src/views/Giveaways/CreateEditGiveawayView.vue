@@ -87,7 +87,7 @@ const getGiveawayData = async () => {
   const { data, error } = await supabase
     .from('listings')
     .select(
-      'poster_id,listingID,listingType, postingTime, locationAddress, category, dietaryRestrictions, allergens, images, listingTitle, tags,status, quantityNum, userProfiles(username, avatarUrl)'
+      'poster_id,listingID,listingType, postingTime, listingDesc, locationAddress, locationDesc, category, dietaryRestrictions, allergens, images, listingTitle, tags,status, quantityNum, userProfiles(username, avatarUrl)'
     )
     .match({ listingID: route.params.id, poster_id: user.currentUser.id })
     .single()
@@ -111,7 +111,7 @@ const getGiveawayData = async () => {
       dietaryRestrictions: data.dietaryRestrictions || null,
       foodAllergens: data.allergens || [],
       tags: data.tags || [],
-      description: data.description || '',
+      description: data.listingDesc || '',
       images: data.images || [],
       quantityNum: data.quantityNum || '',
       locationAddress: data.locationAddress || '',

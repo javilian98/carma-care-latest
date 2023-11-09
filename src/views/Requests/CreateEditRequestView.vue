@@ -86,7 +86,7 @@ const getRequestData = async () => {
   const { data, error } = await supabase
     .from('listings')
     .select(
-      'poster_id,listingID,listingType, postingTime, locationAddress, category, dietaryRestrictions, allergens, images, listingTitle, tags,status, quantityNum, userProfiles(username, avatarUrl)'
+      'poster_id,listingID,listingType, postingTime, listingDesc, locationDesc, locationAddress, category, dietaryRestrictions, allergens, images, listingTitle, tags,status, quantityNum, userProfiles(username, avatarUrl)'
     )
     .match({ listingID: route.params.id, poster_id: user.currentUser.id })
     .single()
@@ -110,7 +110,7 @@ const getRequestData = async () => {
       dietaryRestrictions: data.dietaryRestrictions || null,
       foodAllergens: data.allergens || [],
       tags: data.tags || [],
-      description: data.description || '',
+      description: data.listingDesc || '',
       images: data.images || [],
       quantityNum: data.quantityNum || '',
       locationAddress: data.locationAddress || '',
@@ -540,6 +540,9 @@ const handleFocusOut = (key) => {
             </CardContainer>
 
             <CardContainer title="Photo Gallery">
+              <div v-if="form.images.length < 1" style="color: #e24c4c; margin-bottom: 10px">
+                Please upload an image
+              </div>
               <div class="photo-gallery">
                 <MultipleImageUpload @uploadImages="handleUploadImages" />
               </div>
