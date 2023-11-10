@@ -299,11 +299,11 @@ const handleChatWithUser = async () => {
           </div>
           <div v-if='form.category == CATEGORY.Food' class="giveaway-item giveaway-serving">
             <span class="giveaway-item-label">Serving Size</span>
-            <span class="giveaway-item-value">{{ form.quantityNum }} Serving(s)</span>
+            <span class="giveaway-item-value">{{ renderTextContent(form.quantityNum) }} Serving(s)</span>
           </div>
           <div v-if='form.category == CATEGORY.Food' class="giveaway-item giveaway-tags">
             <span class="giveaway-item-label">Main Ingredients</span>
-            <span class="giveaway-item-value">
+            <span v-if='form.tags.length == 0' class="giveaway-item-value">
               <Tag
                 v-for="(tag, index) in form.tags"
                 :key="index"
@@ -312,10 +312,11 @@ const handleChatWithUser = async () => {
                 rounded
               />
             </span>
+            <span v-else>-</span>
           </div>
           <div v-if='form.category == CATEGORY.Food' class="giveaway-item giveaway-allergens">
             <span class="giveaway-item-label">Food Allergens</span>
-            <span class="giveaway-item-value">
+            <span v-if='form.tags.length == 0' class="giveaway-item-value">
               <Tag
                 v-for="(allergen, index) in form.foodAllergens"
                 :key="index"
@@ -324,6 +325,7 @@ const handleChatWithUser = async () => {
                 rounded
               />
             </span>
+            <span v-else>-</span>
           </div>
           <div class="giveaway-item giveaway-description">
             <span class="giveaway-item-label">Description</span>
