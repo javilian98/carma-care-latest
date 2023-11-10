@@ -134,8 +134,8 @@ const router = createRouter({
       meta: {
         layout: DefaultLayout,
         requiresAuth: true,
-        requiresProfile: true,
-        alreadyHaveProfile: true
+        requiresProfile: true
+        // alreadyHaveProfile: true
       }
     },
 
@@ -155,7 +155,8 @@ const router = createRouter({
       name: 'Login',
       component: AuthView,
       meta: {
-        layout: DefaultLayout
+        layout: DefaultLayout,
+        alreadyHaveAccount: true
       }
     },
     {
@@ -163,7 +164,8 @@ const router = createRouter({
       name: 'Signup',
       component: AuthView,
       meta: {
-        layout: DefaultLayout
+        layout: DefaultLayout,
+        alreadyHaveAccount: true
       }
     }
 
@@ -178,14 +180,19 @@ const router = createRouter({
   ]
 })
 
-async function getUser(next, key, redirectPath) {
+async function getUser(next, key, redirectPath, toFullPath) {
   const user = useUserStore()
+  user.profile = await user.fetchUserProfile()
+  console.log('user ', user['profile'] === null)
 
-  console.log('user ', user.currentUser)
-
-  if (user[key] === null) {
+  if (toFullPath === '/profile/create' && user['profile'] !== null) {
+    console.log('log:1')
+    next('/')
+  } else if (user[key] === null) {
+    console.log('log:2')
     next(redirectPath)
   } else {
+    console.log('log:3')
     next()
   }
 }
@@ -200,10 +207,10 @@ async function getUserProfile(next, toFullPath) {
 
   console.log('user profile ', user.profile)
 
-  if (user.profile === null) {
-    next('/profile/create')
-    return
-  }
+  // if (user.profile === null) {
+  //   next('/profile/create')
+  //   return
+  // }
 
   // if (user.currentUser && user.profile && toFullPath !== '/profile/create') {
   //   next()
@@ -223,9 +230,28 @@ router.beforeEach((to, from, next) => {
   if (to.meta.alreadyHaveProfile) {
     getUserProfile(next, to.fullPath)
   } else if (to.meta.requiresProfile) {
-    getUser(next, 'profile', '/profile/create')
+    getUser(next, 'profile', '/profile/create', to.fullPath)
   } else if (to.meta.requiresAuth) {
-    getUser(next, 'currentUser', '/login')
+    getUser(next, 'currentUser', '/login', to.fullPath)
+  } else if (to.fullPath === '/login' || to.fullPath === '/signup') {
+    const user = useUserStore()
+    if (user.session !== null) {
+      next('/')
+    } else {
+      next()
+    }
+  } else if (to.fullPath === '/profile/create') {
+    const user = useUserStore()
+    user.fetchUserProfile().then((data) => {
+      user.profile = data
+    })
+    console.log('user ', user.profile === null)
+
+    if (user['profile'] === null) {
+      next('/profile/create')
+    } else {
+      next('/')
+    }
   } else {
     next()
   }

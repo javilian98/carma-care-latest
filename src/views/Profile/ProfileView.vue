@@ -609,21 +609,27 @@ let toggleModal = () => {
 
 @media only screen and (max-width: 768px) {
   .profile-view .profile-content {
-    grid-template-areas:
+    display: block;
+    /* grid-template-areas:
       'profile-photo statistics'
-      'profile-info profile-info';
+      'profile-info profile-info'; */
     align-items: center;
     width: 100%;
   }
 
   .profile-view .profile-photo {
-    height: 150px;
-    width: 150px;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 30px;
     font-size: 6em;
   }
 
   .profile-view .icon {
     display: none;
+  }
+
+  .profile-view .profile-statistics {
+    margin-top: 30px;
   }
 
   .profile-view .statistics-button {

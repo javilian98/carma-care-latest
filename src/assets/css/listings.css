@@ -11,6 +11,6 @@
 @media screen and (max-width: 768px) {
   .listings-cards {
     padding: 0 10px;
-    gap: 15px;
+    gap: 25px;
   }
 }
